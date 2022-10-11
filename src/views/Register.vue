@@ -1,0 +1,97 @@
+<template>
+  <div class="auth-page ng-scope">
+    <div class="container page">
+      <div class="row">
+        <div class="col-md-6 offset-md-3 col-xs-12">
+          <h1 class="text-xs-center ng-binding" ng-bind="$ctrl.title">
+            Sign up
+          </h1>
+          <p class="text-xs-center">
+            <router-link :to="{name: 'login'}">Need an account?</router-link>
+          </p>
+          <ValidationErrors
+            v-if="validationErrors"
+            :validation-errors="validationErrors"
+          ></ValidationErrors>
+
+          <form @submit.prevent="onSubmit">
+            <fieldset class="form-group">
+              <input
+                class="form-control form-control-lg"
+                type="text"
+                placeholder="Username"
+                v-model="username"
+              />
+            </fieldset>
+            <fieldset class="form-group">
+              <input
+                class="form-control form-control-lg"
+                type="text"
+                placeholder="Email"
+                v-model="email"
+              />
+            </fieldset>
+            <fieldset class="form-group">
+              <input
+                class="form-control form-control-lg"
+                type="password"
+                placeholder="Username"
+                v-model="password"
+              />
+            </fieldset>
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              type="submit"
+              :disabled="isSubmitting"
+            >
+              Sign up
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import ValidationErrors from '@/components/ValidationErrors'
+import {actionTypes} from '@/store/modules/auth'
+
+export default {
+  name: 'Register',
+  components: {
+    ValidationErrors,
+  },
+  data() {
+    return {
+      username: '',
+      email: '',
+      password: '',
+    }
+  },
+  computed: {
+    isSubmitting() {
+      return this.$store.state.auth.isSubmitting
+    },
+    validationErrors() {
+      return this.$store.state.auth.validationErrors
+    },
+  },
+  methods: {
+    onSubmit() {
+      this.$store
+        .dispatch(actionTypes.register, {
+          email: this.email,
+          username: this.username,
+          password: this.password,
+        })
+        .then((user) => {
+          console.log('successfully registered', user)
+          this.$router.push({name: 'home'})
+        })
+    },
+  },
+}
+</script>
+
+<style></style>
