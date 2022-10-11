@@ -1,9 +1,18 @@
 <template>
   <div>
-    <h1>Medium clone</h1>
-
+    <TopBar />
     <router-view></router-view>
   </div>
 </template>
-
+<script>
+import {actionTypes} from '@/store/modules/auth'
+import TopBar from '@/components/TopBar'
+export default {
+  name: 'app',
+  components: {TopBar},
+  mounted() {
+    this.$store.dispatch(actionTypes.getCurrentUser)
+  },
+}
+</script>
 <style></style>
