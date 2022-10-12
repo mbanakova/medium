@@ -35,32 +35,73 @@
           >
         </div>
       </div>
-      pagination
+      <Pagination
+        :total="feed.articlesCount"
+        :limit="limit"
+        :current-page="currentPage"
+        :url="baseUrl"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import {actionTypes} from '@/store/modules/feed'
+import Pagination from '@/components/Pagination'
 import {mapState} from 'vuex'
+import {limit} from '@/helpers/vars'
+import {stringify, parseUrl} from 'query-string'
 
 export default {
   name: 'Feed',
+  components: {Pagination},
   props: {
     apiUrl: {
       type: String,
       required: true,
     },
   },
+  data() {
+    return {
+      limit,
+      url: '/tags/dragons',
+    }
+  },
   mounted() {
-    this.$store.dispatch(actionTypes.getFeed, {apiUrl: this.apiUrl})
+    this.fetchFeed()
+  },
+  watch: {
+    currentPage() {
+      this.fetchFeed()
+    },
   },
   computed: {
     ...mapState({
       isLoading: (state) => state.feed.isLoading,
       feed: (state) => state.feed.data,
       error: (state) => state.feed.error,
+      currentPage() {
+        return +this.$route.query.page || 1
+      },
+      baseUrl() {
+        return this.$route.path
+      },
+      offset() {
+        return this.currentPage * limit - limit
+      },
     }),
+  },
+  methods: {
+    fetchFeed() {
+      const parsedUrl = parseUrl(this.apiUrl)
+      const stringifiedParams = stringify({
+        limit,
+        offset: this.offset,
+        ...parsedUrl.query,
+      })
+      const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`
+      this.$store.dispatch(actionTypes.getFeed, {apiUrl: apiUrlWithParams})
+    },
   },
 }
 </script>
