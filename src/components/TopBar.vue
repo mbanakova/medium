@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-light">
     <div class="container">
-      <router-link class="navbar-brand" :to="{name: 'home'}" exact
+      <router-link class="navbar-brand" :to="{name: 'globalFeed'}" exact
         >Medium clone</router-link
       >
       <ul class="nav navbar-nav pull-xs-right">
@@ -9,7 +9,7 @@
           <router-link
             class="nav-link"
             active-class="active"
-            :to="{name: 'home'}"
+            :to="{name: 'globalFeed'}"
             exact
           >
             Home
@@ -78,14 +78,7 @@
         style="display: none"
       >
         <li class="nav-item">
-          <a
-            class="nav-link active"
-            ui-sref-active="active"
-            ui-sref="app.home"
-            href="#/"
-          >
-            Home
-          </a>
+          <a class="nav-link active" href="#/"> Home </a>
         </li>
 
         <li class="nav-item">
@@ -111,12 +104,7 @@
         </li>
 
         <li class="nav-item">
-          <a
-            class="nav-link ng-binding"
-            ui-sref-active="active"
-            ui-sref="app.profile.main({ username: $ctrl.currentUser.username })"
-            href="#/@"
-          >
+          <a class="nav-link ng-binding" ui-sref-active="active">
             <img
               class="user-pic"
               src="https://api.realworld.io/images/smiley-cyrus.jpeg"

@@ -1,31 +1,67 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
-import Register from '@/views/Register.vue'
-import Login from '@/views/Login.vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import GlobalFeed from '@/views/GlobalFeed.vue'
+const Register = () => import('@/views/Register.vue')
+const Login = () => import('@/views/Login.vue')
 
-Vue.use(VueRouter)
-
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/register',
-    name: 'register',
-    component: Register
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: Login
-  },
-]
-
-const router = new VueRouter({
-  routes
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes: [
+    {
+      path: '/register',
+      name: 'register',
+      component: Register
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/',
+      name: 'globalFeed',
+      component: GlobalFeed
+    },
+    {
+      path: '/feed',
+      name: 'yourFeed',
+      component: GlobalFeed
+    },
+    {
+      path: '/tags/:slug',
+      name: 'tag',
+      component: GlobalFeed
+    },
+    {
+      path: '/articles/new',
+      name: 'createArticle',
+      component: GlobalFeed
+    },
+    {
+      path: '/articles/:slug',
+      name: 'article',
+      component: GlobalFeed
+    },
+    {
+      path: '/articles/:slug/edit',
+      name: 'editArticle',
+      component: GlobalFeed
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: GlobalFeed
+    },
+    {
+      path: '/profiles/:slug',
+      name: 'userProfile',
+      component: GlobalFeed
+    },
+    {
+      path: '/profiles/:slug/favourites',
+      name: 'userProfileFavourites',
+      component: GlobalFeed
+    },
+  ]
 })
 
 export default router
