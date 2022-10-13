@@ -24,7 +24,7 @@ export default {
   components: {Feed, PopularTags, Banner, FeedToggler},
   data() {
     return {
-      apiUrl: '/articles',
+      apiUrl: '/articles/feed',
     }
   },
 }

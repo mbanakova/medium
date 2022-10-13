@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="isLoading">Loading...</div>
-    <div v-if="error">smth bad happened...</div>
+    <Loader v-if="isLoading" />
+    <ErrorMessage v-if="error" :message="'Some shit happened...'" />
     <div v-if="feed">
       <div
         class="article-preview"
@@ -48,13 +48,15 @@
 <script>
 import {actionTypes} from '@/store/modules/feed'
 import Pagination from '@/components/Pagination'
+import Loader from '@/components/Loader'
+import ErrorMessage from '@/components/ErrorMessage'
 import {mapState} from 'vuex'
 import {limit} from '@/helpers/vars'
 import {stringify, parseUrl} from 'query-string'
 
 export default {
   name: 'Feed',
-  components: {Pagination},
+  components: {Pagination, Loader, ErrorMessage},
   props: {
     apiUrl: {
       type: String,

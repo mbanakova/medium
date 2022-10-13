@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import GlobalFeed from '@/views/GlobalFeed.vue'
 const Register = () => import('@/views/Register.vue')
 const Login = () => import('@/views/Login.vue')
+const YourFeed = () => import('@/views/YourFeed.vue')
+const TagFeed = () => import('@/views/TagFeed.vue')
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -24,12 +26,12 @@ const router = createRouter({
     {
       path: '/feed',
       name: 'yourFeed',
-      component: GlobalFeed
+      component: YourFeed
     },
     {
       path: '/tags/:slug',
       name: 'tag',
-      component: GlobalFeed
+      component: TagFeed
     },
     {
       path: '/articles/new',
