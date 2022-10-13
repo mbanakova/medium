@@ -4,6 +4,7 @@ const Register = () => import('@/views/Register.vue')
 const Login = () => import('@/views/Login.vue')
 const YourFeed = () => import('@/views/YourFeed.vue')
 const TagFeed = () => import('@/views/TagFeed.vue')
+const Article = () => import('@/views/Article.vue')
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -41,7 +42,7 @@ const router = createRouter({
     {
       path: '/articles/:slug',
       name: 'article',
-      component: GlobalFeed
+      component: Article
     },
     {
       path: '/articles/:slug/edit',
