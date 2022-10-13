@@ -31,8 +31,8 @@
             ><h2>{{ article.title }}</h2>
             <p>{{ article.description }}</p>
             <span>read more...</span>
-            tag list</router-link
-          >
+            <TagList :tags="article.tagList"
+          /></router-link>
         </div>
       </div>
       <Pagination
@@ -49,6 +49,7 @@
 import {actionTypes} from '@/store/modules/feed'
 import Pagination from '@/components/Pagination'
 import Loader from '@/components/Loader'
+import TagList from '@/components/TagList'
 import ErrorMessage from '@/components/ErrorMessage'
 import {mapState} from 'vuex'
 import {limit} from '@/helpers/vars'
@@ -56,7 +57,7 @@ import {stringify, parseUrl} from 'query-string'
 
 export default {
   name: 'Feed',
-  components: {Pagination, Loader, ErrorMessage},
+  components: {Pagination, Loader, ErrorMessage, TagList},
   props: {
     apiUrl: {
       type: String,

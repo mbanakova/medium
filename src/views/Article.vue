@@ -21,14 +21,17 @@
             >
             <span class="date">{{ article.createdAt }}</span>
           </div>
-          <span>
+          <span v-if="isAuthor">
             <router-link
               class="btn btn-outline-secondary btn-sm"
               :to="{name: 'editArticle', params: {slug: article.slug}}"
             >
               <i class="ion-edit">Edit article</i>
             </router-link>
-            <button class="btn btn-outline-danger btn-sm">
+            <button
+              class="btn btn-outline-danger btn-sm"
+              @click="deleteArticle"
+            >
               <i class="ion-trash-a"></i> Delete
             </button>
           </span>
@@ -41,7 +44,7 @@
       <div class="row article-content" v-if="article">
         <div class="col-xs-12">
           <p>{{ article.body }}</p>
-          TAGLIST
+          <TagList :tags="article.tagList" />
         </div>
       </div>
     </div>
@@ -49,17 +52,19 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import {actionTypes} from '@/store/modules/article'
+import {mapState, mapGetters} from 'vuex'
+import {actionTypes as articleActionTypes} from '@/store/modules/article'
+import {getterTypes as authGetterTypes} from '@/store/modules/auth'
 import Loader from '@/components/Loader'
 import ErrorMessage from '@/components/ErrorMessage'
+import TagList from '@/components/TagList'
 
 export default {
   name: 'Article',
-  components: {Loader, ErrorMessage},
+  components: {Loader, ErrorMessage, TagList},
   mounted() {
     console.log('dispatched!!!')
-    this.$store.dispatch(actionTypes.getArticle, {
+    this.$store.dispatch(articleActionTypes.getArticle, {
       slug: this.$route.params.slug,
     })
   },
@@ -69,6 +74,26 @@ export default {
       error: (state) => state.article.error,
       article: (state) => state.article.data,
     }),
+    ...mapGetters({
+      currentUser: authGetterTypes.currentUser,
+    }),
+    isAuthor() {
+      if (!this.currentUser || !this.article) {
+        return false
+      }
+      return this.currentUser === this.article.author.username
+    },
+  },
+  methods: {
+    deleteArticle() {
+      this.$store
+        .dispatch(articleActionTypes.deleteArticle, {
+          slug: this.$route.params.slug,
+        })
+        .then(() => {
+          this.$router.push({name: 'globalFeed'})
+        })
+    },
   },
 }
 </script>
