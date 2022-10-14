@@ -5,6 +5,7 @@ const Login = () => import('@/views/Login.vue')
 const YourFeed = () => import('@/views/YourFeed.vue')
 const TagFeed = () => import('@/views/TagFeed.vue')
 const Article = () => import('@/views/Article.vue')
+const CreateArticle = () => import('@/views/CreateArticle.vue')
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -37,7 +38,7 @@ const router = createRouter({
     {
       path: '/articles/new',
       name: 'createArticle',
-      component: GlobalFeed
+      component: CreateArticle
     },
     {
       path: '/articles/:slug',

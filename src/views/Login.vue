@@ -12,7 +12,7 @@
           <ValidationErrors
             v-if="validationErrors"
             :validation-errors="validationErrors"
-          ></ValidationErrors>
+          />
 
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
