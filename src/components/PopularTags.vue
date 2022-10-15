@@ -1,17 +1,19 @@
 <template>
-  <div class="col-md-3">
-    <Loader v-if="isLoading" />
-    <ErrorMessage v-if="error" :message="'Some shit happened...'" />
+  <div>
+    <loading v-if="isLoading" />
+    <error-message v-if="error" />
+
     <div class="sidebar" v-if="popularTags">
-      <p>popular tags</p>
+      <p>Popular Tags</p>
       <div class="tag-list">
         <router-link
+          v-for="popularTag in popularTags"
+          :key="popularTag"
+          :to="{name: 'tag', params: {slug: popularTag}}"
           class="tag-default tag-pill"
-          v-for="tag in popularTags"
-          :key="tag"
-          :to="{name: 'tag', params: {slug: tag}}"
-          >{{ tag }}</router-link
         >
+          {{ popularTag }}
+        </router-link>
       </div>
     </div>
   </div>
@@ -19,13 +21,17 @@
 
 <script>
 import {mapState} from 'vuex'
+
 import {actionTypes} from '@/store/modules/popularTags'
-import Loader from '@/components/Loader'
+import Loading from '@/components/Loading'
 import ErrorMessage from '@/components/ErrorMessage'
 
 export default {
   name: 'PopularTags',
-  components: {Loader, ErrorMessage},
+  components: {
+    Loading,
+    ErrorMessage,
+  },
   computed: {
     ...mapState({
       isLoading: (state) => state.popularTags.isLoading,
@@ -38,5 +44,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

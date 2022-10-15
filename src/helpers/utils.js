@@ -1,3 +1,3 @@
-export const range = (end) => {
-  return [...Array(end).keys()].map(elem => elem + 1)
+export const range = (start, end) => {
+  return [...Array(end).keys()].map(el => el + start)
 }

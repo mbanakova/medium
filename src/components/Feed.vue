@@ -1,7 +1,8 @@
 <template>
   <div>
-    <Loader v-if="isLoading" />
-    <ErrorMessage v-if="error" :message="'Some shit happened...'" />
+    <loading v-if="isLoading" />
+    <error-message v-if="error" />
+
     <div v-if="feed">
       <div
         class="article-preview"
@@ -11,71 +12,65 @@
         <div class="article-meta">
           <router-link
             :to="{name: 'userProfile', params: {slug: article.author.username}}"
-            ><img :src="article.author.image" alt=""
-          /></router-link>
+          >
+            <img :src="article.author.image" />
+          </router-link>
           <div class="info">
             <router-link
-              class="author"
               :to="{
                 name: 'userProfile',
                 params: {slug: article.author.username},
               }"
-              >{{ article.author.username }}
+            >
+              {{ article.author.username }}
             </router-link>
             <span class="date">{{ article.createdAt }}</span>
-            <div class="pull-xs-right">add to favs</div>
           </div>
-          <router-link
-            class="preview-link"
-            :to="{name: 'article', params: {slug: article.slug}}"
-            ><h2>{{ article.title }}</h2>
-            <p>{{ article.description }}</p>
-            <span>read more...</span>
-            <TagList :tags="article.tagList"
-          /></router-link>
+          <div class="pull-xs-right">ADD TO FAVORITES</div>
         </div>
+        <router-link
+          :to="{name: 'article', params: {slug: article.slug}}"
+          class="preview-link"
+        >
+          <h1>{{ article.title }}</h1>
+          <p>{{ article.description }}</p>
+          <span>Read more...</span>
+          <tag-list :tags="article.tagList" />
+        </router-link>
       </div>
-      <Pagination
+      <pagination
         :total="feed.articlesCount"
         :limit="limit"
-        :current-page="currentPage"
         :url="baseUrl"
-      />
+        :current-page="currentPage"
+      ></pagination>
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+import {stringify, parseUrl} from 'query-string'
+
 import {actionTypes} from '@/store/modules/feed'
 import Pagination from '@/components/Pagination'
-import Loader from '@/components/Loader'
-import TagList from '@/components/TagList'
-import ErrorMessage from '@/components/ErrorMessage'
-import {mapState} from 'vuex'
 import {limit} from '@/helpers/vars'
-import {stringify, parseUrl} from 'query-string'
+import Loading from '@/components/Loading'
+import ErrorMessage from '@/components/ErrorMessage'
+import TagList from '@/components/TagList'
 
 export default {
   name: 'Feed',
-  components: {Pagination, Loader, ErrorMessage, TagList},
+  components: {
+    Pagination,
+    Loading,
+    ErrorMessage,
+    TagList,
+  },
   props: {
     apiUrl: {
       type: String,
       required: true,
-    },
-  },
-  data() {
-    return {
-      limit,
-      url: '/tags/dragons',
-    }
-  },
-  mounted() {
-    this.fetchFeed()
-  },
-  watch: {
-    currentPage() {
-      this.fetchFeed()
     },
   },
   computed: {
@@ -83,16 +78,27 @@ export default {
       isLoading: (state) => state.feed.isLoading,
       feed: (state) => state.feed.data,
       error: (state) => state.feed.error,
-      currentPage() {
-        return +this.$route.query.page || 1
-      },
-      baseUrl() {
-        return this.$route.path
-      },
-      offset() {
-        return this.currentPage * limit - limit
-      },
     }),
+    limit() {
+      return limit
+    },
+    baseUrl() {
+      return this.$route.path
+    },
+    currentPage() {
+      return Number(this.$route.query.page || '1')
+    },
+    offset() {
+      return this.currentPage * limit - limit
+    },
+  },
+  watch: {
+    currentPage() {
+      this.fetchFeed()
+    },
+  },
+  mounted() {
+    this.fetchFeed()
   },
   methods: {
     fetchFeed() {
@@ -108,11 +114,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.article-preview .preview-link h2 {
-  font-weight: 600 !important;
-  font-size: 1.5rem !important;
-  margin-bottom: 3px;
-}
-</style>

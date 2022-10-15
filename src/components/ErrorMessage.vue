@@ -1,5 +1,7 @@
 <template>
-  <div>Some shit happened......</div>
+  <div>
+    {{ message }}
+  </div>
 </template>
 
 <script>
@@ -9,10 +11,8 @@ export default {
     message: {
       type: String,
       required: false,
-      default: 'Some shit happened...',
+      default: 'Something went wrong',
     },
   },
 }
 </script>
-
-<style></style>

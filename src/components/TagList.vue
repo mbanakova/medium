@@ -1,6 +1,6 @@
 <template>
   <ul class="tag-list">
-    <li class="tag-default tag-pill tag-outline" v-for="tag in tags" :key="tag">
+    <li v-for="tag in tags" :key="tag" class="tag-default tag-pill tag-outline">
       {{ tag }}
     </li>
   </ul>
@@ -17,5 +17,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

@@ -1,19 +1,16 @@
 <template>
-  <div class="auth-page ng-scope">
+  <div class="auth-page">
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center ng-binding" ng-bind="$ctrl.title">
-            Sign up
-          </h1>
+          <h1 class="text-xs-center">Sign up</h1>
           <p class="text-xs-center">
-            <router-link :to="{name: 'login'}">Have an account?</router-link>
+            <router-link :to="{name: 'login'}"> Need an account? </router-link>
           </p>
-          <ValidationErrors
+          <validation-errors
             v-if="validationErrors"
             :validation-errors="validationErrors"
-          ></ValidationErrors>
-
+          ></validation-errors>
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
@@ -35,16 +32,15 @@
               <input
                 class="form-control form-control-lg"
                 type="password"
-                placeholder="Username"
+                placeholder="Password"
                 v-model="password"
               />
             </fieldset>
             <button
               class="btn btn-lg btn-primary pull-xs-right"
-              type="submit"
               :disabled="isSubmitting"
             >
-              Sign up
+              Sign Up
             </button>
           </form>
         </div>
@@ -55,9 +51,9 @@
 
 <script>
 import {mapState} from 'vuex'
-import ValidationErrors from '@/components/ValidationErrors'
-import {actionTypes} from '@/store/modules/auth'
 
+import ValidationErrors from '@/components/ValidationErrors.vue'
+import {actionTypes} from '@/store/modules/auth'
 export default {
   name: 'Register',
   components: {
@@ -65,9 +61,9 @@ export default {
   },
   data() {
     return {
-      username: '',
       email: '',
       password: '',
+      username: '',
     }
   },
   computed: {
@@ -84,13 +80,10 @@ export default {
           username: this.username,
           password: this.password,
         })
-        .then((user) => {
-          console.log('successfully registered', user)
+        .then(() => {
           this.$router.push({name: 'globalFeed'})
         })
     },
   },
 }
 </script>
-
-<style></style>

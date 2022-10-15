@@ -1,27 +1,34 @@
 <template>
   <div class="home-page">
-    <Banner />
+    <banner></banner>
     <div class="container page">
       <div class="row">
         <div class="col-md-9">
-          <FeedToggler :tag-name="tagName" />
-          <Feed :api-url="apiUrl" />
+          <feed-toggler :tag-name="tagName"></feed-toggler>
+          <feed :api-url="apiUrl"></feed>
         </div>
-        <PopularTags />
+        <div class="col-md-3">
+          <popular-tags></popular-tags>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Feed from '@/components/Feed'
-import PopularTags from '@/components/PopularTags'
-import Banner from '@/components/Banner'
+import Feed from '@/components/Feed.vue'
+import PopularTags from '@/components/PopularTags.vue'
+import Banner from '@/components/Banner.vue'
 import FeedToggler from '@/components/FeedToggler'
 
 export default {
-  name: 'globalFeed',
-  components: {Feed, PopularTags, Banner, FeedToggler},
+  name: 'YourFeed',
+  components: {
+    Feed,
+    PopularTags,
+    Banner,
+    FeedToggler,
+  },
   computed: {
     tagName() {
       return this.$route.params.slug
@@ -32,5 +39,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

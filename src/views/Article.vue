@@ -2,13 +2,13 @@
   <div class="article-page">
     <div class="banner">
       <div class="container" v-if="article">
-        <h1 class="article-title">{{ article.title }}</h1>
+        <h1>{{ article.title }}</h1>
         <div class="article-meta">
           <router-link
             :to="{name: 'userProfile', params: {slug: article.author.username}}"
           >
-            <img :src="article.author.image" alt=""
-          /></router-link>
+            <img :src="article.author.image" />
+          </router-link>
           <div class="info">
             <router-link
               :to="{
@@ -17,8 +17,7 @@
               }"
             >
               {{ article.author.username }}
-              /></router-link
-            >
+            </router-link>
             <span class="date">{{ article.createdAt }}</span>
           </div>
           <span v-if="isAuthor">
@@ -26,25 +25,29 @@
               class="btn btn-outline-secondary btn-sm"
               :to="{name: 'editArticle', params: {slug: article.slug}}"
             >
-              <i class="ion-edit">Edit article</i>
+              <i class="ion-edit" />
+              Edit Article
             </router-link>
             <button
               class="btn btn-outline-danger btn-sm"
               @click="deleteArticle"
             >
-              <i class="ion-trash-a"></i> Delete
+              <i class="ion-trash-a" />
+              Delete Article
             </button>
           </span>
         </div>
       </div>
     </div>
     <div class="container page">
-      <Loader v-if="isLoading" />
-      <ErrorMessage v-if="error" :message="'Some shit happened...'" />
+      <loading v-if="isLoading" />
+      <error-message v-if="isLoading" :message="error" />
       <div class="row article-content" v-if="article">
         <div class="col-xs-12">
-          <p>{{ article.body }}</p>
-          <TagList :tags="article.tagList" />
+          <div>
+            <p>{{ article.body }}</p>
+          </div>
+          <tag-list :tags="article.tagList" />
         </div>
       </div>
     </div>
@@ -53,26 +56,25 @@
 
 <script>
 import {mapState, mapGetters} from 'vuex'
+
 import {actionTypes as articleActionTypes} from '@/store/modules/article'
 import {getterTypes as authGetterTypes} from '@/store/modules/auth'
-import Loader from '@/components/Loader'
+import Loading from '@/components/Loading'
 import ErrorMessage from '@/components/ErrorMessage'
 import TagList from '@/components/TagList'
 
 export default {
   name: 'Article',
-  components: {Loader, ErrorMessage, TagList},
-  mounted() {
-    console.log('dispatched!!!')
-    this.$store.dispatch(articleActionTypes.getArticle, {
-      slug: this.$route.params.slug,
-    })
+  components: {
+    Loading,
+    ErrorMessage,
+    TagList,
   },
   computed: {
     ...mapState({
       isLoading: (state) => state.article.isLoading,
-      error: (state) => state.article.error,
       article: (state) => state.article.data,
+      error: (state) => state.article.error,
     }),
     ...mapGetters({
       currentUser: authGetterTypes.currentUser,
@@ -81,8 +83,14 @@ export default {
       if (!this.currentUser || !this.article) {
         return false
       }
-      return this.currentUser === this.article.author.username
+
+      return this.currentUser.username === this.article.author.username
     },
+  },
+  mounted() {
+    this.$store.dispatch(articleActionTypes.getArticle, {
+      slug: this.$route.params.slug,
+    })
   },
   methods: {
     deleteArticle() {
@@ -97,5 +105,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

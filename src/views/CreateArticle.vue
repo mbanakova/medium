@@ -1,23 +1,23 @@
 <template>
-  <mcv-article-form
+  <article-form
     :initialValues="initialValues"
     :errors="validationErrors"
     :isSubmitting="isSubmitting"
     @articleSubmit="onSubmit"
   >
-  </mcv-article-form>
+  </article-form>
 </template>
 
 <script>
 import {mapState} from 'vuex'
 
-import McvArticleForm from '@/components/ArticleForm'
+import ArticleForm from '@/components/ArticleForm'
 import {actionTypes} from '@/store/modules/createArticle'
 
 export default {
-  name: 'McvCreateArticle',
+  name: 'CreateArticle',
   components: {
-    McvArticleForm,
+    ArticleForm,
   },
   data() {
     return {

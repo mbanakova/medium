@@ -1,18 +1,21 @@
 <template>
   <div id="app">
-    <TopBar />
+    <Topbar />
     <router-view></router-view>
   </div>
 </template>
+
 <script>
+import Topbar from '@/components/Topbar.vue'
 import {actionTypes} from '@/store/modules/auth'
-import TopBar from '@/components/TopBar'
+
 export default {
-  name: 'app',
-  components: {TopBar},
+  name: 'App',
+  components: {
+    Topbar,
+  },
   mounted() {
     this.$store.dispatch(actionTypes.getCurrentUser)
   },
 }
 </script>
-<style></style>

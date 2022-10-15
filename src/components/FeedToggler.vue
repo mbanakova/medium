@@ -6,26 +6,30 @@
           :to="{name: 'yourFeed'}"
           class="nav-link"
           :class="{active: routeName === 'yourFeed'}"
-          >Your feed</router-link
         >
+          Your feed
+        </router-link>
       </li>
+
       <li class="nav-item">
         <router-link
           :to="{name: 'globalFeed'}"
           class="nav-link"
           :class="{active: routeName === 'globalFeed'}"
-          >Global feed</router-link
         >
+          Global feed
+        </router-link>
       </li>
+
       <li class="nav-item" v-if="tagName">
         <router-link
           :to="{name: 'tag'}"
           class="nav-link"
           :class="{active: routeName === 'tag'}"
         >
-          <i class="ion-pound"></i>
-          {{ tagName }}</router-link
-        >
+          <i class="ion-pound" />
+          {{ tagName }}
+        </router-link>
       </li>
     </ul>
   </div>
@@ -33,7 +37,8 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import {getterTypes} from '../store/modules/auth'
+
+import {getterTypes} from '@/store/modules/auth'
 
 export default {
   name: 'FeedToggler',
@@ -44,12 +49,12 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({isLoggedIn: getterTypes.isLoggedIn}),
+    ...mapGetters({
+      isLoggedIn: getterTypes.isLoggedIn,
+    }),
     routeName() {
       return this.$route.name
     },
   },
 }
 </script>
-
-<style></style>
